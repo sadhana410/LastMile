@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Report</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom CSS for white background */
+        #fleetOrdersTable, #statusTables {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg" id="navBar">
+        <a class="navbar-brand" href="/"><img src="/images/Logo.png" style="width: 50px;margin-right:10px">LastMile</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/fleet">Generate Route</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/fleet">Manage Fleet<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" action="/fleet">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h2>Generate Report</h2>
+        <div class="row">
+            <!-- Left half of the page -->
+            <div class="col-md-6">
+                <div id="fleetOrdersTable" class="mt-3">
+                    <!-- Table will be generated dynamically here -->
+                </div>
+            </div>
+            <!-- Right half of the page -->
+            <div class="col-md-6">
+                <!-- Three tables for different status values -->
+                <div id="statusTables" class="mt-3">
+                    <h4>Status 1 Table</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Vehicle ID</th>
+                                <th>Driver ID</th>
+                            </tr>
+                        </thead>
+                        <tbody id="status1TableBody">
+                            <!-- Table content goes here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="statusTables" class="mt-3">
+                    <h4>Status 2 Table</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Vehicle ID</th>
+                                <th>Driver ID</th>
+                            </tr>
+                        </thead>
+                        <tbody id="status2TableBody">
+                            <!-- Table content goes here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="statusTables" class="mt-3">
+                    <h4>Status 3 Table</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Vehicle ID</th>
+                                <th>Driver ID</th>
+                            </tr>
+                        </thead>
+                        <tbody id="status3TableBody">
+                            <!-- Table content goes here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        fetch('/generateReport')
+            .then(response => response.json())
+            .then(data => {
+                const fleetOrdersTable = document.getElementById('fleetOrdersTable');
+                const table = document.createElement('table');
+                table.classList.add('table', 'table-bordered');
+                const thead = document.createElement('thead');
+                const tbody = document.createElement('tbody');
+                const headRow = document.createElement('tr');
+                // Creating table headings
+                Object.keys(data[0]).forEach(key => {
+                    if (key !== '_id') { // Exclude _id field
+                        const th = document.createElement('th');
+                        th.textContent = key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
+                        headRow.appendChild(th);
+                    }
+                });
+                thead.appendChild(headRow);
+                table.appendChild(thead);
+                // Creating table rows and cells
+                data.forEach(item => {
+                    const tr = document.createElement('tr');
+                    Object.entries(item).forEach(([key, val]) => {
+                        if (key !== '_id') { // Exclude _id field
+                            const td = document.createElement('td');
+                            td.textContent = val;
+                            tr.appendChild(td);
+                        }
+                    });
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+                fleetOrdersTable.appendChild(table);
+
+                // Filter data based on status
+        const status1Data = data.filter(item => item.status === 'pending');
+        const status2Data = data.filter(item => item.status === 'in transit');
+        const status3Data = data.filter(item => item.status === 'completed');
+
+        console.log("Status 1 Data:", status1Data); // Debugging: Log status 1 data
+        console.log("Status 2 Data:", status2Data); // Debugging: Log status 2 data
+        console.log("Status 3 Data:", status3Data); // Debugging: Log status 3 data
+
+        // Function to populate table rows
+        const populateTableRows = (tableBody, orders) => {
+            orders.forEach(order => {
+                const tr = document.createElement('tr');
+                const orderIdTd = document.createElement('td');
+                const vehicleIdTd = document.createElement('td');
+                const driverIdTd = document.createElement('td');
+                orderIdTd.textContent = order.orderId;
+                vehicleIdTd.textContent = order.vehicleId;
+                driverIdTd.textContent = order.driverId;
+                tr.appendChild(orderIdTd);
+                tr.appendChild(vehicleIdTd);
+                tr.appendChild(driverIdTd);
+                tableBody.appendChild(tr);
+            });
+        };
+
+        // Populate table rows for each status
+        populateTableRows(document.getElementById('status1TableBody'), status1Data);
+        populateTableRows(document.getElementById('status2TableBody'), status2Data);
+        populateTableRows(document.getElementById('status3TableBody'), status3Data);
+    })
+    .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
