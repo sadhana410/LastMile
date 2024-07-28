@@ -6,16 +6,16 @@
  **Going an extra ‘last mile’ for the best services!** <br>
 
 ## Features for business Owners
-![blogin](https://github.com/charu210703/LastMile/assets/33421514/5e293de3-a273-408e-aced-d4f1996022a8)
+![blogin](https://github.com/user-attachments/assets/219d4d60-c97b-4fd9-b4a1-c5e4f80081be)
 
 ## Features for Delivery systems
-![flogin2](https://github.com/charu210703/LastMile/assets/33421514/600bca07-16fd-46a2-8c27-7aca59b4c4b3)
+![flogin2](https://github.com/user-attachments/assets/4bde25b7-8312-46dc-8146-667d978c0dbf)
 
 ## Flow of the application:
-![image](https://github.com/charu210703/LastMile/assets/33421514/353e5d0f-ed0b-4eef-b891-709d22a346f7)
+![image](https://github.com/user-attachments/assets/64ebbf76-4b9b-41e7-b563-12a69bf661b3)
 
-## Techn-Stack used:
-![WhatsApp Image 2024-05-05 at 9 17 49 AM](https://github.com/charu210703/LastMile/assets/33421514/bb63dcda-569d-40d8-b0a6-20429b3ced7b)
+## Tech-Stack used:
+![image](https://github.com/user-attachments/assets/66051613-bfb8-4591-b7b1-04701842ec54)
 
 ## Contributors:
 @charu210703
